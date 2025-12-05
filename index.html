@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мебель Лофт СПб | Мастерская Дмитрия Грозина</title>
+    
+    <!-- Шрифт Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #F5F2EC;
+            --text-color: #222222;
+            --accent-wood: #C58A47;
+            --accent-hover: #A66E34;
+            --metal-dark: #2C2F33;
+            --white: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        img { max-width: 100%; display: block; border-radius: 4px; }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section { padding: 80px 0; }
+
+        h1, h2, h3 { font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+        h1 { font-size: 2.8rem; text-transform: uppercase; }
+        h2 { font-size: 2.2rem; margin-bottom: 40px; text-align: center; }
+        h3 { font-size: 1.3rem; margin-bottom: 10px; }
+        p { margin-bottom: 15px; font-weight: 400; }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-wood);
+            color: var(--white);
+            padding: 16px 32px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background-color: var(--accent-hover); }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent-wood);
+            color: var(--text-color);
+            padding: 12px 20px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            display: block;
+            text-align: center;
+            transition: 0.3s;
+            margin-top: auto; /* Прижимает кнопку к низу */
+        }
+        .btn-outline:hover {
+            background-color: var(--accent-wood);
+            color: var(--white);
+        }
+
+        /* === ГЛАВНЫЙ ЭКРАН (ИСПРАВЛЕННЫЙ) === */
+        .hero {
+            /* Убираем жесткую привязку к высоте экрана (было 85vh) */
+            min-height: auto; 
+            
+            /* Задаем высоту за счет отступов сверху и снизу */
+            padding: 160px 0; 
+            
+            display: flex;
+            align-items: center;
+            
+            /* Фон */
+            background: linear-gradient(rgba(0,0,0,0.60), rgba(0,0,0,0.60)), url('images/hero.jpg');
+            background-size: cover;      /* Картинка всегда закрывает весь блок */
+            background-position: center; /* Центрируем картинку */
+            background-attachment: scroll; /* Убираем параллакс, если он мешает на мобильных */
+            
+            color: var(--white);
+        }
+
+        /* АДАПТИВ ДЛЯ МОБИЛЬНЫХ */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0; /* На телефоне отступы поменьше */
+            }
+            h1 { font-size: 1.8rem; } /* Заголовок чуть меньше */
+        }
+
+
+        /* КАРТОЧКИ (ИСПРАВЛЕНИЕ КРИВИЗНЫ) */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;          /* Включаем флекс */
+            flex-direction: column; /* Вертикальный стек */
+            height: 100%;           /* Растягиваем на всю высоту ячейки */
+        }
+
+        .product-img {
+            height: 250px;
+            background-color: #ddd;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .product-info {
+            padding: 25px;
+            flex-grow: 1;           /* Заставляет блок растягиваться */
+            display: flex;
+            flex-direction: column; /* Чтобы внутри тоже работало выравнивание */
+        }
+
+        .price {
+            color: var(--accent-wood);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        /* МЕТАЛЛ */
+        .section-metal { background-color: var(--metal-dark); color: var(--white); }
+        .metal-grid { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
+        .metal-text { flex: 1; }
+        .metal-img { flex: 1; min-width: 300px; }
+        .metal-img img { width: 100%; height: auto; border: 4px solid #444; }
+
+        /* КОНТАКТЫ */
+        .contacts-section { background-color: var(--metal-dark); color: var(--white); padding-bottom: 40px; }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            text-align: left;
+        }
+        .contact-block h3 { color: var(--accent-wood); margin-bottom: 15px; }
+        .contact-item { margin-bottom: 15px; display: flex; align-items: flex-start; }
+        .contact-item i { color: var(--accent-wood); margin-right: 15px; margin-top: 5px; }
+        .contact-item a { color: white; text-decoration: none; border-bottom: 1px dashed #777; }
+
+        /* АДАПТИВ */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .metal-grid { flex-direction: column-reverse; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. ГЛАВНЫЙ -->
+    <section class="hero">
+        <div class="container">
+            <div style="max-width: 800px;">
+                <h1>Мебель из массива и стали в стиле Лофт. Собственное производство</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">
+                    Надежные столы, стеллажи и обувницы. Изготовление по вашим размерам или готовые варианты. Доставка по всей России.
+                </p>
+                <a href="https://vk.com/mebel_massiv_st.petergof" class="btn">Рассчитать стоимость</a>
+            </div>
+        </div>
+    </section>
+<!-- 2. БОЛИ КЛИЕНТА (ПОЧЕМУ НЕ МАСС-МАРКЕТ) -->
+    <section style="background-color: #fff;">
+        <div class="container">
+            <h2>Надоело менять мебель каждые 2 года?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="padding: 20px; border-left: 4px solid var(--accent-wood); background: #fafafa;">
+                    <h3 style="color: #c0392b;">Магазины (ДСП)</h3>
+                    <p>Шкафы из прессованных опилок разбухают от влаги, пленка отклеивается, а дверцы начинают скрипеть через месяц.</p>
+                </div>
+                <div style="padding: 20px; border-left: 4px solid #2ecc71; background: #fdfdfd; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <h3 style="color: #27ae60;">Наша мастерская</h3>
+                    <p>Натуральный массив и сталь. Такая мебель переживет переезды, ремонты и активное использование.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 2. КАТАЛОГ -->
+    <section id="catalog">
+        <div class="container">
+            <h2>Изделия из натурального массива</h2>
+            <div class="catalog-grid">
+                
+                <!-- Товар 1 -->
+                <div class="product-card">
+                    <img src="images/table.jpg" alt="Стол" class="product-img">
+                    <div class="product-info">
+                        <h3>Стол Лофт</h3>
+                        <div class="price">4 900 ₽</div>
+                        <p>Массив + металл. Крепкий сварной каркас, не шатается. Столешница покрыта маслом.</p>
+                        <a href="https://vk.com/mebel_massiv_st.petergof" class="btn-outline">Хочу такой</a>
+                    </div>
+                </div>
+
+                <!-- Товар 2 -->
+                <div class="product-card">
+                    <img src="images/shoerack.jpg" alt="Обувница" class="product-img">
+                    <div class="product-info">
+                        <h3>Обувница из массива</h3>
+                        <div class="price">9 800 ₽</div>
+                        <p>Вмещает всю обувь, сверху можно сидеть. Надежная конструкция, которая прослужит вечно.</p>
+                        <a href="https://vk.com/mebel_massiv_st.petergof" class="btn-outline">Хочу такую</a>
+                    </div>
+                </div>
+
+                <!-- Товар 3 -->
+                <div class="product-card">
+                    <img src="images/nightstand.jpg" alt="Тумба" class="product-img">
+                    <div class="product-info">
+                        <h3>Тумба прикроватная</h3>
+                        <div class="price">3 190 ₽</div>
+                        <p>Натуральное дерево, экологично. Идеально вписывается в спальню.</p>
+                        <a href="https://vk.com/mebel_massiv_st.petergof" class="btn-outline">Хочу такую</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. МЕТАЛЛ -->
+    <section class="section-metal">
+        <div class="container">
+            <div class="metal-grid">
+                <div class="metal-text">
+                    <h2>Мангалы, печи и изделия из металла</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                        Ростовые мангалы, буржуйки и баки. Варим из стали толщиной от 3 мм: такие стенки не прогорят и их не поведет от жара. Надежные швы и жесткий каркас.
+                    </p>
+                    <ul style="list-style: none; margin-bottom: 30px;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color:var(--accent-wood)"></i> Любые формы по вашим чертежам</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color:var(--accent-wood)"></i> Покраска термостойкой эмалью</li>
+                    </ul>
+                    <a href="https://vk.com/mebel_massiv_st.petergof" class="btn" style="background: white; color: #222;">Заказать сварку</a>
+                </div>
+                <div class="metal-img">
+                    <img src="images/metal.jpg" alt="Мангал">
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- 5. ИНДИВИДУАЛЬНЫЙ ЗАКАЗ -->
+    <section style="background-color: #fff; text-align: center;">
+        <div class="container" style="max-width: 800px;">
+            <h2>Не нашли нужного размера?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                Вам не нужно подстраиваться под стандарты магазинов. У вас узкая ниша или нестандартная планировка?
+            </p>
+            <div style="text-align: left; background: #F5F2EC; padding: 30px; border-radius: 8px; margin-bottom: 30px;">
+                <p><strong>1.</strong> Замерьте место под мебель.</p>
+                <p><strong>2.</strong> Пришлите размеры или фото из интернета («хочу вот такой, но выше»).</p>
+                <p><strong>3.</strong> Мастер назовет цену и сроки.</p>
+            </div>
+            <a href="https://vk.com/mebel_massiv_st.petergof" class="btn">Обсудить мой проект</a>
+        </div>
+    </section>
+<!-- 6. МАТЕРИАЛЫ (ИСПРАВЛЕННЫЙ) -->
+    <section>
+        <div class="container">
+            <h2>Материалы, с которыми мы работаем</h2>
+            <div class="catalog-grid">
+                
+                <!-- 1. Дерево -->
+                <div style="text-align: center;">
+                    <i class="fas fa-tree" style="font-size: 3rem; color: var(--accent-wood); margin-bottom: 15px;"></i>
+                    <h3>Сухой массив</h3>
+                    <p>Сосна, ясень, дуб. Влажность 8-10%. Дерево прошло камерную сушку, поэтому изделия не трескаются.</p>
+                </div>
+
+                <!-- 2. Металл -->
+                <div style="text-align: center;">
+                    <i class="fas fa-layer-group" style="font-size: 3rem; color: var(--metal-dark); margin-bottom: 15px;"></i>
+                    <h3>Стальной профиль</h3>
+                    <p>Конструкционная сталь (Ст3). Используем профильную трубу с толщиной стенки, достаточной для жесткости.</p>
+                </div>
+
+                <!-- 3. Покрытия (ВМЕСТО РАЗБОРНОСТИ) -->
+                <div style="text-align: center;">
+                    <i class="fas fa-paint-roller" style="font-size: 3rem; color: var(--accent-wood); margin-bottom: 15px;"></i>
+                    <h3>Защитные покрытия</h3>
+                    <p>Дерево пропитываем маслом и воском. Металл красим молотковой эмалью или термостойкой краской (для печей).</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- 4. О МАСТЕРЕ (ФИНАЛ: КРУГЛОЕ ФОТО БЕЗ "КРИВОЙ" ЛИНИИ) -->
+    <section style="background-color: #EBE7E0; padding: 100px 0;">
+        <div class="container">
+            <div style="
+                background: #fff;
+                border-radius: 12px;
+                padding: 60px 40px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 60px;
+                flex-wrap: wrap-reverse;
+            ">
+
+                
+                <!-- Текст -->
+                <div style="flex: 1; min-width: 320px;">
+                    
+                    <!-- Большая цветная кавычка -->
+                    <div style="
+                        font-size: 80px;
+                        line-height: 1;
+                        color: var(--accent-wood);
+                        font-family: serif;
+                        margin-bottom: -20px;
+                        margin-left: -5px;
+                    ">“</div>
+
+                    <h2 style="
+                        text-align: left; 
+                        margin-bottom: 25px; 
+                        font-size: 2.4rem;
+                        color: #222;
+                    ">
+                        Честный подход
+                    </h2>
+                    
+                    <div style="
+                        font-size: 1.2rem; 
+                        font-weight: 400; 
+                        color: #444; 
+                        margin-bottom: 40px;
+                        line-height: 1.7;
+                        border-left: 3px solid #eee;
+                        padding-left: 25px;
+                    ">
+                        <p style="margin-bottom: 15px;">Я не содержу офис менеджеров и дорогой шоурум, поэтому мои цены ниже рыночных.</p>
+                        <p>Лично отвечаю за каждый шов и каждую доску — вы платите только за материал и честную работу руками.</p>
+                    </div>
+
+                    <!-- Подпись -->
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 50px; 
+                            height: 50px; 
+                            background: var(--metal-dark); 
+                            color: #fff; 
+                            border-radius: 50%; 
+                            display: flex; 
+                            align-items: center; 
+                            justify-content: center;
+                            font-size: 1.2rem;
+                        "><i class="fas fa-signature"></i></div>
+                        
+                        <div>
+                            <div style="
+                                font-weight: 800; 
+                                text-transform: uppercase; 
+                                letter-spacing: 1px; 
+                                color: var(--text-color);
+                            ">Дмитрий Грозин</div>
+                            <div style="color: #888; font-size: 0.9rem;">Основатель мастерской</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Фото (ПРОСТО КРУГ С ПУНКТИРОМ) -->
+                <div style="position: relative; flex: 0 0 320px;">
+                    
+                    <!-- Пунктирная рамка -->
+                    <div style="
+                        position: absolute;
+                        top: -15px;
+                        left: -15px;
+                        right: -15px;
+                        bottom: -15px;
+                        border: 1px dashed #ccc;
+                        border-radius: 50%;
+                        z-index: 0;
+                    "></div>
+                    
+                    <!-- Само фото -->
+                    <img src="images/master.jpg" alt="Дмитрий Грозин" style="
+                        width: 320px; 
+                        height: 320px; 
+                        object-fit: cover; 
+                        border-radius: 50%; 
+                        position: relative; 
+                        z-index: 1;
+                        border: 8px solid #fff; 
+                        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                    ">
+                </div>
+
+            </div>
+        </div>
+    </section>
+<!-- 8. СХЕМА РАБОТЫ (ТЕМНАЯ ТЕМА) -->
+    <section style="background-color: #2C2F33; color: #ffffff;">
+        <div class="container">
+            <h2 style="color: #ffffff;">Как мы работаем</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
+                
+                <!-- Шаг 1 -->
+                <div style="flex: 1; min-width: 200px; text-align: center;">
+                    <!-- Цифры сделал полупрозрачными белыми, чтобы смотрелось дорого -->
+                    <div style="font-size: 40px; color: rgba(255,255,255,0.15); font-weight: 800;">01</div>
+                    <h3 style="color: #C58A47;">Заявка</h3>
+                    <p style="color: #ccc;">Пишите в ВК или звоните. Присылаете размеры или эскиз.</p>
+                </div>
+                
+                <!-- Шаг 2 -->
+                <div style="flex: 1; min-width: 200px; text-align: center;">
+                    <div style="font-size: 40px; color: rgba(255,255,255,0.15); font-weight: 800;">02</div>
+                    <h3 style="color: #C58A47;">Расчет</h3>
+                    <p style="color: #ccc;">Называем точную цену. Если устраивает — берем в работу.</p>
+                </div>
+                
+                <!-- Шаг 3 -->
+                <div style="flex: 1; min-width: 200px; text-align: center;">
+                    <div style="font-size: 40px; color: rgba(255,255,255,0.15); font-weight: 800;">03</div>
+                    <h3 style="color: #C58A47;">Изготовление</h3>
+                    <p style="color: #ccc;">Срок от 3 до 7 дней. Фотоотчет в процессе (по желанию).</p>
+                </div>
+                
+                <!-- Шаг 4 -->
+                <div style="flex: 1; min-width: 200px; text-align: center;">
+                    <!-- Последнюю цифру оставил яркой -->
+                    <div style="font-size: 40px; color: #C58A47; font-weight: 800;">04</div>
+                    <h3 style="color: #fff;">Готово</h3>
+                    <p style="color: #ccc;">Присылаем фото готового изделия. Доставка или самовывоз.</p>
+                </div>
+            
+            </div>
+        </div>
+    </section>
+<!-- 9. ЧАСТЫЕ ВОПРОСЫ -->
+    <section>
+        <div class="container" style="max-width: 800px;">
+            <h2>Частые вопросы</h2>
+            <div style="background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--accent-wood);">
+                <h3>А дерево не треснет?</h3>
+                <p>Мы используем только камерную сушку и качественные пропитки. При домашнем использовании с деревом ничего не случится.</p>
+            </div>
+            <div style="background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid var(--metal-dark);">
+                <h3>Можно сделать по моему рисунку от руки?</h3>
+                <p>Да, конечно. Достаточно простого наброска на бумаге с указанием длины, ширины и высоты.</p>
+            </div>
+        </div>
+    </section>
+    <!-- 5. ДОСТАВКА И КОНТАКТЫ -->
+    <section class="contacts-section">
+        <div class="container">
+            <h2>Контакты и Доставка</h2>
+            
+            <div class="contact-grid">
+                <!-- Блок 1: Доставка -->
+                <div class="contact-block">
+                    <h3><i class="fas fa-truck"></i> Доставка по РФ</h3>
+                    <div class="contact-item">
+                        <p>Отправляем транспортными компаниями (СДЭК, ПЭК, Деловые Линии) в любой город России. Мебель надежно упаковываем, чтобы доехала целой.</p>
+                    </div>
+                </div>
+
+                <!-- Блок 2: Самовывоз -->
+                <div class="contact-block">
+                    <h3><i class="fas fa-map-marker-alt"></i> Самовывоз</h3>
+                    <div class="contact-item">
+                        <p>Санкт-Петербург, Старый Петергоф,<br>ул. Халтурина 1</p>
+                    </div>
+                </div>
+
+                <!-- Блок 3: Связь -->
+                <div class="contact-block">
+                    <h3><i class="fas fa-phone"></i> Связаться</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i> 
+                        <a href="tel:+79212140310"><strong>+7 (921) 214-03-10</strong></a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-vk"></i> 
+                        <a href="https://vk.com/mebel_massiv_st.petergof" target="_blank">vk.com/mebel_massiv_st.petergof</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-user"></i> 
+                        <span>Дмитрий Грозин</span>
+                    </div>
+                    <a href="https://vk.com/mebel_massiv_st.petergof" class="btn" style="margin-top: 15px; width: 100%; text-align: center;">Написать мастеру</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
